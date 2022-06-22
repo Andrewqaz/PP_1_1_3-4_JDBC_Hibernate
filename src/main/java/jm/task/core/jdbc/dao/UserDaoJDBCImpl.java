@@ -33,7 +33,13 @@ public class UserDaoJDBCImpl implements UserDao {
                 ")";
         try (Statement st = connection.createStatement()) {
             st.executeUpdate(query);
+            connection.commit();
         } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             e.printStackTrace();
         }
     }
@@ -42,7 +48,13 @@ public class UserDaoJDBCImpl implements UserDao {
         String query = "DROP TABLE IF EXISTS user";
         try (Statement st = connection.createStatement()) {
             st.executeUpdate(query);
+            connection.commit();
         } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             e.printStackTrace();
         }
     }
@@ -54,7 +66,13 @@ public class UserDaoJDBCImpl implements UserDao {
             ps.setString(2, lastName);
             ps.setInt(3, age);
             ps.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             e.printStackTrace();
         }
     }
@@ -64,7 +82,13 @@ public class UserDaoJDBCImpl implements UserDao {
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setLong(1, id);
             ps.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             e.printStackTrace();
         }
     }
@@ -92,7 +116,13 @@ public class UserDaoJDBCImpl implements UserDao {
         String sql = "DELETE FROM user";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             e.printStackTrace();
         }
     }
