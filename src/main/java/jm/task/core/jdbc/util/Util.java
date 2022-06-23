@@ -11,7 +11,11 @@ public class Util {
     private static final String CONNECTION_URL = "jdbc:mysql://localHost:3306/kata";
 
 
-    public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(CONNECTION_URL, USER_NAME, PASSWORD);
+    public static Connection getConnection() {
+        try {
+            return DriverManager.getConnection(CONNECTION_URL, USER_NAME, PASSWORD);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

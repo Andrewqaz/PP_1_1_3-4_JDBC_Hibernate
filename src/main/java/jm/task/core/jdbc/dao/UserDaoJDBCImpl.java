@@ -21,18 +21,15 @@ public class UserDaoJDBCImpl implements UserDao {
                 "user_last_name VARCHAR(40)," +
                 "age INT" +
                 ")";
-        Connection con = null;
-        try (Connection connection = Util.getConnection()) {
+        Connection connection = Util.getConnection();
+        try (connection) {
             connection.setAutoCommit(false);
-            con = connection;
-            Statement st = con.createStatement();
+            Statement st = connection.createStatement();
             st.executeUpdate(query);
-            con.commit();
+            connection.commit();
         } catch (SQLException e) {
             try {
-                if (con != null) {
-                    con.rollback();
-                }
+                connection.rollback();
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
@@ -42,18 +39,15 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void dropUsersTable() {
         String query = "DROP TABLE IF EXISTS user";
-        Connection con = null;
-        try (Connection connection = Util.getConnection()) {
+        Connection connection = Util.getConnection();
+        try (connection) {
             connection.setAutoCommit(false);
-            con = connection;
-            Statement st = con.createStatement();
+            Statement st = connection.createStatement();
             st.executeUpdate(query);
-            con.commit();
+            connection.commit();
         } catch (SQLException e) {
             try {
-                if (con != null) {
-                    con.rollback();
-                }
+                connection.rollback();
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
@@ -63,21 +57,18 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void saveUser(String name, String lastName, byte age) {
         String sql = "INSERT INTO user (user_name, user_last_name, age) VALUE (?, ?, ?)";
-        Connection con = null;
-        try (Connection connection = Util.getConnection()) {
+        Connection connection = Util.getConnection();
+        try (connection) {
             connection.setAutoCommit(false);
-            con = connection;
-            PreparedStatement ps = con.prepareStatement(sql);
+            PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, name);
             ps.setString(2, lastName);
             ps.setInt(3, age);
             ps.executeUpdate();
-            con.commit();
+            connection.commit();
         } catch (SQLException e) {
             try {
-                if (con != null) {
-                    con.rollback();
-                }
+                connection.rollback();
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
@@ -87,19 +78,16 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void removeUserById(long id) {
         String sql = "DELETE FROM user WHERE user_id = ?";
-        Connection con = null;
-        try (Connection connection = Util.getConnection()) {
+        Connection connection = Util.getConnection();
+        try (connection) {
             connection.setAutoCommit(false);
-            con = connection;
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setLong(1, id);
             ps.executeUpdate();
-            con.commit();
+            connection.commit();
         } catch (SQLException e) {
             try {
-                if (con != null) {
-                    con.rollback();
-                }
+                connection.rollback();
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
@@ -130,18 +118,15 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void cleanUsersTable() {
         String sql = "DELETE FROM user";
-        Connection con = null;
-        try (Connection connection = Util.getConnection()) {
+        Connection connection = Util.getConnection();
+        try (connection) {
             connection.setAutoCommit(false);
-            con = connection;
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
             try {
-                if (con != null) {
-                    con.rollback();
-                }
+                connection.rollback();
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
